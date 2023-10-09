@@ -1,14 +1,15 @@
-import { View, Text, XStack } from "tamagui";
-import EditScreenInfo from "../../components/EditScreenInfo";
+import { View, Text, XStack, YStack } from "tamagui";
+import { MainTransitionForm } from "../../components/forms/MainTransitionForm/MainTransitionForm";
 
 export default function TabOneScreen() {
   return (
     <View>
-      <XStack>
-        <Text>Tab One</Text>
-      </XStack>
+      <YStack>
+        <Text>Main Tab</Text>
+
+        <MainTransitionForm />
+      </YStack>
       <View />
-      <EditScreenInfo path="app/(tabs)/index.tsx" />
     </View>
   );
 }

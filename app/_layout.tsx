@@ -1,3 +1,4 @@
+import "../global";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
@@ -5,6 +6,7 @@ import { useEffect } from "react";
 
 import config from "../tamagui.config";
 import { TamaguiProvider } from "tamagui";
+import { useSqliteController } from "../hooks/useSqliteController";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -26,18 +28,24 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
+  const { state } = useSqliteController();
+
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
-    if (loaded) {
+    if (state === "error") throw new Error("DB error");
+  }, [state]);
+
+  useEffect(() => {
+    if (loaded && state === "ready") {
       SplashScreen.hideAsync();
     }
-  }, [loaded]);
+  }, [loaded, state]);
 
-  if (!loaded) {
+  if (!loaded || state !== "ready") {
     return null;
   }
 
