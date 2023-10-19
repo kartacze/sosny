@@ -1,10 +1,15 @@
+import "../global";
 import * as S from "@effect/schema/Schema";
 
 export const transactionSchema = S.struct({
-  debitor: S.string,
-  creditor: S.string,
-  amount: S.number,
-  currency: S.string,
+  debitor: S.string.pipe(S.nonEmpty()),
+  creditor: S.string.pipe(S.nonEmpty()),
+  amount: S.string.pipe(S.nonEmpty()),
+  currency: S.string.pipe(S.nonEmpty()),
+  note: S.string,
+  date: S.string.pipe(S.nonEmpty()),
 });
 
-export interface Transaction extends S.Schema.To<typeof transactionSchema> {}
+export type TransactionForm = S.Schema.To<typeof transactionSchema>;
+
+export interface Transaction extends TransactionForm {}

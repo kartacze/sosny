@@ -1,27 +1,37 @@
-import { Control, useController } from "react-hook-form";
+import {
+  Control,
+  FieldValues,
+  Path,
+  PathValue,
+  useController,
+} from "react-hook-form";
 import { ChevronDown } from "@tamagui/lucide-icons";
 import { Select, Adapt, Sheet } from "tamagui";
 
-type MySelectProps = {
-  defaultValue?: string;
-  name: string;
-  control: Control;
+type MySelectProps<T extends FieldValues> = {
+  defaultValue?: PathValue<T, Path<T>>;
+  name: Path<T>;
+  control: Control<T>;
   items: string[];
 };
 
-export const MySelect = ({
+export function MySelect<T extends FieldValues>({
   name,
   control,
   items,
-  defaultValue = "",
-}: MySelectProps) => {
-  const { field } = useController({ control, defaultValue: "", name });
+  defaultValue,
+}: MySelectProps<T>) {
+  const { field } = useController<T>({
+    control,
+    defaultValue,
+    name,
+  });
 
   return (
     <Select
       id={name}
       onValueChange={field.onChange}
-      value={field.value}
+      value={(field.value as string) || ""}
       defaultValue={defaultValue}
       native
     >
@@ -36,7 +46,7 @@ export const MySelect = ({
           dismissOnSnapToBottom
           animationConfig={{
             type: "spring",
-            damping: 20,
+            damping: 25,
             mass: 1.2,
             stiffness: 250,
           }}
@@ -70,4 +80,4 @@ export const MySelect = ({
       </Select.Content>
     </Select>
   );
-};
+}

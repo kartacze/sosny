@@ -1,23 +1,45 @@
-import { Control, useController } from "react-hook-form";
-import { XStack, Input, SizeTokens } from "tamagui";
+import {
+  Control,
+  FieldValues,
+  Path,
+  PathValue,
+  useController,
+} from "react-hook-form";
+import { XStack, YStack, Input, SizeTokens, Paragraph } from "tamagui";
 
-type MyInputProps = {
-  name: string;
-  control: Control;
+type MyInputProps<T extends FieldValues> = {
+  name: Path<T>;
+  control: Control<T>;
   size: SizeTokens;
+  defaultValue?: PathValue<T, Path<T>>;
 };
 
-export const MyInput = ({ name, control, size }: MyInputProps) => {
-  const { field } = useController({ control, defaultValue: "", name });
+export function MyInput<T extends FieldValues>({
+  name,
+  control,
+  size,
+  defaultValue,
+}: MyInputProps<T>) {
+  const {
+    field,
+    fieldState: { error },
+  } = useController({ control, defaultValue, name });
 
   return (
-    <XStack>
-      <Input
-        flex={1}
-        size={size}
-        value={field.value}
-        onChangeText={field.onChange}
-      />
-    </XStack>
+    <YStack>
+      <XStack>
+        <Input
+          flex={1}
+          size={size}
+          value={field.value}
+          onChangeText={field.onChange}
+        />
+      </XStack>
+      {error && (
+        <Paragraph size="$2" fontWeight="800" color="red">
+          {error.message}
+        </Paragraph>
+      )}
+    </YStack>
   );
-};
+}

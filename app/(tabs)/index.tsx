@@ -1,4 +1,5 @@
-import { View, Text, XStack, YStack } from "tamagui";
+import { View, Text, YStack } from "tamagui";
+
 import { MainTransitionForm } from "../../components/forms/MainTransitionForm/MainTransitionForm";
 
 export default function TabOneScreen() {
