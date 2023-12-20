@@ -12,6 +12,7 @@ type MyInputProps<T extends FieldValues> = {
   control: Control<T>;
   size: SizeTokens;
   defaultValue?: PathValue<T, Path<T>>;
+  placeholder?: string;
 };
 
 export function MyInput<T extends FieldValues>({
@@ -19,6 +20,7 @@ export function MyInput<T extends FieldValues>({
   control,
   size,
   defaultValue,
+  placeholder,
 }: MyInputProps<T>) {
   const {
     field,
@@ -33,6 +35,7 @@ export function MyInput<T extends FieldValues>({
           size={size}
           value={field.value}
           onChangeText={field.onChange}
+          placeholder={placeholder}
         />
       </XStack>
       {error && (

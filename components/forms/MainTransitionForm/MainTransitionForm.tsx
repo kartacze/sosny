@@ -7,29 +7,41 @@ import {
   TransactionForm,
   transactionSchema,
 } from "../../../schemas/Transaction";
+import { Wallet } from "../../../schemas/Wallet";
 
-type MainTransitionFormProps = {};
+type MainTransitionFormProps = {
+  debitors: Wallet[];
+  creditors: Wallet[];
+};
 
 const debitors = ["kieszen", "firma", "mBank"];
 const creditors = ["spozywczak", "ABC", "inne(default)"];
+
+const defaultValues = {
+  currency: "PLN",
+  date: new Date().toISOString(),
+};
+
 
 export const MainTransitionForm = ({}: MainTransitionFormProps) => {
   const {
     control,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<TransactionForm>({
     resolver: effectResolver(transactionSchema),
+    defaultValues,
   });
 
   const onSubmit = () => {
-    console.log("submit here");
+    console.log("submit here", errors);
   };
 
   const onError: SubmitErrorHandler<TransactionForm> = (error) => {
     console.log("error here', ", error);
   };
+
 
   return (
     <Stack>
@@ -58,11 +70,22 @@ export const MainTransitionForm = ({}: MainTransitionFormProps) => {
       </SizableText>
       <MyInput control={control} name="amount" size="$4" />
 
+      <SizableText theme="light_alt2" size="$5" mt="$2">
+        Optional Note
+      </SizableText>
+      <MyInput
+        control={control}
+        name="note"
+        size="$4"
+        placeholder="add some note here..."
+      />
+
       <XStack mt="$5" space="$4" justifyContent="center">
         <Button
           size="$4"
           theme="active"
           onPress={handleSubmit(onSubmit, onError)}
+          disabled={!isValid}
         >
           dawaj
         </Button>
@@ -73,10 +96,11 @@ export const MainTransitionForm = ({}: MainTransitionFormProps) => {
             reset({
               debitor: debitors[0],
               amount: "0",
+              ...defaultValues,
             });
           }}
         >
-          dawaj
+          wyczyść
         </Button>
       </XStack>
       <XStack>

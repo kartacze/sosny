@@ -1,3 +1,5 @@
+import "../global";
+
 import { Link, Stack } from "expo-router";
 import { View, Text } from "tamagui";
 

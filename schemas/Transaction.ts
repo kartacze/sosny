@@ -6,7 +6,7 @@ export const transactionSchema = S.struct({
   creditor: S.string.pipe(S.nonEmpty()),
   amount: S.string.pipe(S.nonEmpty()),
   currency: S.string.pipe(S.nonEmpty()),
-  note: S.string,
+  note: S.optional(S.string.pipe(S.nonEmpty())),
   date: S.string.pipe(S.nonEmpty()),
 });
 
