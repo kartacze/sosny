@@ -2,12 +2,13 @@ import "../global.ts";
 
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { SplashScreen, Slot } from "expo-router";
 import { useEffect } from "react";
 
 import config from "../tamagui.config";
 import { TamaguiProvider } from "tamagui";
 import { useSqliteController } from "../hooks/useSqliteController";
+import { SessionProvider } from "../ctx";
 
 export {
   // Catch any errors thrown by the Layout component.
@@ -55,11 +56,10 @@ export default function RootLayout() {
 
 function RootLayoutNav() {
   return (
-    <TamaguiProvider config={config}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: "modal" }} />
-      </Stack>
-    </TamaguiProvider>
+    <SessionProvider>
+      <TamaguiProvider config={config}>
+        <Slot />
+      </TamaguiProvider>
+    </SessionProvider>
   );
 }
