@@ -51,7 +51,7 @@ export default function SignIn() {
 
       <XStack alignSelf="flex-end" gap="$4">
         <Button theme="alt1" aria-label="Close" onPress={triggerSignIn}>
-          Log out
+          Log in
         </Button>
       </XStack>
     </YStack>

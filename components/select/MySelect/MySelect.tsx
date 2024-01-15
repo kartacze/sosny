@@ -72,7 +72,7 @@ export function MySelect<T extends FieldValues>({
             {items.map((item, i) => (
               <Select.Item index={i} key={item} value={item}>
                 <Select.ItemText>{item}</Select.ItemText>
-                <Select.ItemIndicator marginLeft="auto"></Select.ItemIndicator>
+                <Select.ItemIndicator marginLeft="auto" />
               </Select.Item>
             ))}
           </Select.Group>

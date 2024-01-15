@@ -7,7 +7,6 @@ import { useEffect } from "react";
 
 import config from "../tamagui.config";
 import { TamaguiProvider } from "tamagui";
-import { useSqliteController } from "../hooks/useSqliteController";
 import { SessionProvider } from "../ctx";
 
 export {
@@ -30,24 +29,18 @@ export default function RootLayout() {
     ...FontAwesome.font,
   });
 
-  const { state } = useSqliteController();
-
   // Expo Router uses Error Boundaries to catch errors in the navigation tree.
   useEffect(() => {
     if (error) throw error;
   }, [error]);
 
   useEffect(() => {
-    if (state === "error") throw new Error("DB error");
-  }, [state]);
-
-  useEffect(() => {
-    if (loaded && state === "ready") {
+    if (loaded) {
       SplashScreen.hideAsync();
     }
-  }, [loaded, state]);
+  }, [loaded]);
 
-  if (!loaded || state !== "ready") {
+  if (!loaded) {
     return null;
   }
 
